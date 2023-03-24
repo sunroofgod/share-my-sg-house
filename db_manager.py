@@ -78,11 +78,11 @@ def create_all_tables(db: sqlalchemy.engine.Connection) -> None:
     print("ALL TABLES CREATED SUCCESSFULLY")
 
 def load_dummy_data(db: sqlalchemy.engine.Connection) -> None:
-    db.execute(text("".join(open("users.sql", "r").readlines())))
-    db.execute(text("".join(open("houses.sql", "r").readlines())))
+    db.execute(text("".join(open("data/users.sql", "r").readlines())))
+    db.execute(text("".join(open("data/houses.sql", "r").readlines())))
     # db.execute(text("".join(open("house_ratings.sql", "r").readlines())))
-    db.execute(text("".join(open("credit_cards.sql", "r").readlines())))
-    db.execute(text("".join(open("rental.sql", "r").readlines())))
+    db.execute(text("".join(open("data/credit_cards.sql", "r").readlines())))
+    db.execute(text("".join(open("data/rental.sql", "r").readlines())))
     db.commit()
     print("ALL DATA POPULATED")
 
@@ -109,4 +109,3 @@ def execute_update(db: sqlalchemy.engine.Connection, command: str):
     db.execute(text(command))
     return
 # print(type(execute_sql(db,"SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")[0]))
-
