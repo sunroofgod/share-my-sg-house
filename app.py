@@ -29,7 +29,7 @@ def auth():
             f"SELECT * FROM users WHERE email = '{email}' AND password = '{password}'")
         email_checker = execute_sql(db,
             f"SELECT * FROM users WHERE email = '{email}'")
-        if email_checker:
+        if not record:
             flash(f"You have entered the wrong password for {email}.")
             return render_template("auth/Login.html")
         elif not record:
