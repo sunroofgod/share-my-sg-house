@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Rentals{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <h2>Available houses for rent</h2>
+    <hr>
+    {% for house in rental[:11] %}
+      <article class="post">
+        <header>
+          <div>
+            <h3>{{ house['location'] }}, {{ house['num_room'] }}-room</h3>
+            <p class="body">${{ house['price'] }}</p>
+          </div>
+          <a class="action" href="">Rent now!</a>
+        </header>
+      </article>
+    {% endfor %}
+{% endblock %}

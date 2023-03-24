@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<title>{% block title %}{% endblock %} - House Listings</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1><a href="{{ url_for('auth') }}">ShareMySGHouse</a></h1>
+  <ul>
+    {% if g.user %}
+      <li><span>{{ g.user['username'] }}</span>
+      <li><a href="">Profile</a>
+      <li><a href="">Log Out</a>
+    {% else %}
+      <li><a href="{{ url_for('auth') }}">Register/Login</a>
+      <!-- <li><a href="{{ url_for('auth') }}">Log In</a> -->
+    {% endif %}
+      <li><a href="{{ url_for('rentals') }}">For Rent</a></li>
+      <!-- <li><a href="">My Listings</a></li> -->
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>
