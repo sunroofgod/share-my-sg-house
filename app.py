@@ -133,16 +133,46 @@ def update_profile():
 @is_login
 def get_my_listings():
     email = session["user"]
-    
     listings = execute_sql(db,
-        f'''SELECT h.location, h.price, h.num_room, hr.rating, hr.date, u.username 
-        FROM houses h, house_ratings hr, users u 
+        f'''SELECT h.id ,h.location, h.price, h.num_room
+        FROM houses h, users u 
         WHERE u.email = h.owner_email AND 
-        hr.houseid = h.id 
-        ORDER BY h.location DESC'''
-    )
+        u.email = '{email}' 
+        ORDER BY h.location DESC
+        ''')
     db.commit()
-    return render_template('listings/index.html', listings=listings)
+    return render_template('listings/index.html', 
+                           listings=listings)
+
+def updatelisting(id):
+    listing = execute_sql(db, f'''
+        SELECT * FROM houses WHERE houses.id = {id};''')
+    email = session["user"]
+    if request.method == 'POST':
+        location = request.form['location']
+        price = request.form['price']
+        num_room = request.form['num_room']
+        if not location and not price and not num_room:
+            flash('Nothing filled in. No changes made.')
+        elif not location:
+            flash('Location not filled in!')
+        elif not price:
+            flash('Price not filled in!')
+        elif not num_room:
+            flash('Number of Rooms not filled in!')
+        else:
+            execute_update(db,f'''
+                    UPDATE houses 
+                    SET location = '{location}' AND
+                    price = {price} AND
+                    num_room = {num_room} 
+                    WHERE owner_email = {email}; 
+                    ''')
+            db.commit()
+            return redirect(url_for('get_my_listings'))
+
+    return render_template('listings/update.html',
+                           listing=listing)
         
 @app.route('/listings/create', methods = ['GET', 'POST'])
 # @login_required #to add login required function --> either in user(), etc

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Update Listing{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<h2>House Listing at {{ listing.location }}</h2>
+
+<form method="POST">
+<label for="location">Location</label>
+<input type="text" name="location" id="location">
+
+<label for="price">Price</label>
+<input type="text" name="price" id="price">
+
+<label for="num_room">Number of Rooms</label>
+<input type="text" name="num_room" id="num_room">
+
+<input type="submit" value="Update listing">
+</form>
+{% endblock %}
