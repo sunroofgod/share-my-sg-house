@@ -1,6 +1,6 @@
-insert into rental (houseid, email, date, num_of_days) values (204, 'tcurgenuerrm@theglobeandmail.com', '07/04/2022', 26);
-insert into rental (houseid, email, date, num_of_days) values (895, 'cflethamgn@nytimes.com', '18/01/2023', 3);
-insert into rental (houseid, email, date, num_of_days) values (688, 'adallicoatpi@economist.com', '03/01/2023', 16);
+insert into rental (houseid, email, date, num_of_days) values (204, '123@gmail.com', '07/04/2022', 26);
+insert into rental (houseid, email, date, num_of_days) values (895, '123@gmail.com', '18/01/2023', 3);
+insert into rental (houseid, email, date, num_of_days) values (688, '123@gmail.com', '03/01/2023', 16);
 insert into rental (houseid, email, date, num_of_days) values (400, 'lpetruknc@people.com.cn', '12/05/2022', 24);
 insert into rental (houseid, email, date, num_of_days) values (591, 'rbeaum4@netvibes.com', '16/03/2022', 2);
 insert into rental (houseid, email, date, num_of_days) values (507, 'iashleyjm@oaic.gov.au', '15/11/2022', 28);

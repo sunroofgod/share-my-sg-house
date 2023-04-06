@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Past bookings{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<table>
+    <thead>
+        <td>Location</td>
+        <td>Price per day</td>
+        <td>Rent start date</td>
+        <td>Number of days</td>
+    </thead>
+    <tbody>
+        {% for rent in rents %}
+        <tr>
+            <td>{{rent.location}}</td>
+            <td>{{rent.price}}</td>
+            <td>{{rent.date}}</td>
+            <td>{{rent.num_of_days}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
