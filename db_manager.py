@@ -40,7 +40,6 @@ def create_all_tables(db: sqlalchemy.engine.Connection) -> None:
             price FLOAT NOT NULL,
             num_room INT NOT NULL,
             owner_email VARCHAR(50),
-            is_rented BOOLEAN NOT NULL,
             FOREIGN KEY (owner_email) REFERENCES users(email))'''
     ))
     db.execute(text(
@@ -61,16 +60,6 @@ def create_all_tables(db: sqlalchemy.engine.Connection) -> None:
             PRIMARY KEY(email, houseid))'''
     ))
     db.execute(text(
-        '''CREATE TABLE IF NOT EXISTS house_ratings(
-            email VARCHAR(50),
-            houseid INTEGER,
-            rating INTEGER NOT NULL,
-            date DATE NOT NULL,
-            FOREIGN KEY (email) REFERENCES users(email),
-            FOREIGN KEY (houseid) REFERENCES houses(id),
-            PRIMARY KEY(date, houseid, email))'''
-    ))
-    db.execute(text(
         '''SET datestyle = dmy  
         '''
     ))
@@ -80,7 +69,6 @@ def create_all_tables(db: sqlalchemy.engine.Connection) -> None:
 def load_dummy_data(db: sqlalchemy.engine.Connection) -> None:
     db.execute(text("".join(open("data/users.sql", "r").readlines())))
     db.execute(text("".join(open("data/houses.sql", "r").readlines())))
-    # db.execute(text("".join(open("house_ratings.sql", "r").readlines())))
     db.execute(text("".join(open("data/credit_cards.sql", "r").readlines())))
     db.execute(text("".join(open("data/rental.sql", "r").readlines())))
     db.commit()

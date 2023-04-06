@@ -1,3 +1,4 @@
+insert into users (fname, lname, email, age, password) values ('John', 'Doe', '123@gmail.com', 21, 123);
 insert into users (fname, lname, email, age) values ('Brande', 'Doughill', 'bdoughill0@t-online.de', 21);
 insert into users (fname, lname, email, age) values ('Billy', 'Darco', 'bdarco1@youtube.com', 12);
 insert into users (fname, lname, email, age) values ('Oneida', 'Ullyott', 'oullyott2@xinhuanet.com', 60);
