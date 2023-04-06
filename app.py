@@ -1,7 +1,6 @@
-from functools import wraps
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from flask import Flask, flash, redirect, request, Response, render_template, url_for, session
-from models import end_point_action
+from helpers import credit_card_operation, check_credit_card, is_login
 
 # Instantiate object app
 app = Flask(__name__, template_folder='templates')
@@ -17,16 +16,6 @@ if (db == None):
 setup_database(db)
 app.logger.info("Database created and populated")
 
-# Login wrapper
-def is_login(f):
-    @wraps(f)
-    def decorated_func(*args, **kwargs):
-        if "user" in session:
-            return f(*args, **kwargs)
-        else:
-            flash("Please log in before using the system")
-            return redirect(url_for("user"))
-    return decorated_func
 
 @app.route("/")
 def home():
@@ -76,7 +65,20 @@ def register():
         db.commit()
         flash(f"Yay {fname} you now have an account!!!")
     return redirect(url_for("user"))
+
+@app.route("/bookings", methods = ['GET'])
+def bookings():
+    email = session["user"]
     
+    rentals = execute_sql(db, f'''
+            SELECT h.location, h.price, r.num_of_days, r.date
+            FROM rental as r, houses as h
+            WHERE r.email = '{email}' AND h.id=r.houseid
+            ORDER BY r.date desc;
+            ''')
+    return render_template('bookings/index.html',
+                rents=rentals)
+
 @app.route('/logout')
 @is_login
 def logout():
@@ -95,14 +97,15 @@ def update_profile():
         credit_card_action = request.form['credit_card_action']
         if password:
             execute_update(db,f'''
-            UPDATE users 
-            SET password = {password}
-            WHERE email = '{email}'; 
-            ''')
+                    UPDATE users 
+                    SET password = {password}
+                    WHERE email = '{email}'; 
+                    ''')
             db.commit()
             flash('Updated your password!')
+            
         ## Update credit card only
-        if (credit_card and credit_card_type):
+        elif (credit_card and credit_card_type):
             message = check_credit_card(credit_card_action, credit_card, credit_card_type, email)
             if message:
                 flash(message)
@@ -125,44 +128,6 @@ def update_profile():
                 user_fname=user.fname,
                 user_lname=user.lname,
                 user_email=user.email)
-
-def credit_card_operation(action, number, type, email):
-    if action == "UPDATE":
-        execute_update(db,f'''
-        UPDATE credit_cards SET type = '{type}',
-        number = '{number}'
-        WHERE email = '{email}';
-        ''')
-    elif action == "ADD":
-        execute_update(db,f'''
-        INSERT INTO credit_cards(type,number,email) 
-        values('{type}','{number}','{email}');
-        ''')
-    db.commit()
-    return
-
-def check_credit_card(action, number, type, email):
-    if action == "UPDATE":
-        check = execute_sql(db, f'''
-                SELECT * FROM credit_cards WHERE email = '{email}' AND
-                type = '{type}';
-                ''')
-        if len(check) == 0:
-            return f"Credit Card Type does not exist yet in your account. Unable to UPDATE!"
-        else:
-            return ""
-    elif action == "ADD":
-        check = execute_sql(db, f'''
-                SELECT * FROM credit_cards WHERE email = '{email}' AND
-                type = '{type}';       
-                ''')
-        if len(check):
-            return f"Credit Card of {type} already exists! Unable to ADD. Try UPDATE instead."
-        else:
-            return ""
-    db.commit()
-    return
-
 
 @app.route('/listings')
 @is_login
