@@ -5,6 +5,14 @@
 {% endblock %}
 
 {% block content %}
+<article class="post">
+    <header>
+        <div>
+            <p</p>
+        </div>
+        <a class="action" href="{{ url_for('create_listing') }}">Create New Listing</a>
+    </header>
+</article>
 {% for house in listings[:11] %}
 <article class="post">
     <header>
@@ -12,8 +20,7 @@
             <h3>{{ house.location }}, {{ house.num_room }}-room</h3>
             <p class="body">${{ house.price }} a day</p>
         </div>
-        <a class="action" href="{{ url_for('updatelisting', id = house.id) }}">Update</a>
-        <a class="action" href="">Delete</a>
+        <a class="action" href="{{ url_for('update_listing', id = house.id) }}">Update</a>
     </header>
 </article>
 {% endfor %}
