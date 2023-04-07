@@ -200,7 +200,8 @@ def delete_listing(id):
 @is_login
 def rentals():
     rental = execute_sql(db,
-        f'''SELECT * FROM houses'''
+        f'''SELECT * FROM houses
+            ORDER BY id desc'''
     )
     return render_template('rent/index.html', rental=rental)
 

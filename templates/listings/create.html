@@ -9,11 +9,13 @@
     <label for="location">Location</label>
     <input name="location" id="location"
       value="{{ request.form['location'] }}" required>
+
     <label for="price">Price</label>
-    <input name="price" id="price"
+    <input type="number" step="any" name="price" id="price"
       value="{{ request.form['price'] }}" required>
+
     <label for="num_room">Number of Rooms</label>
-    <input name="num_room" id="num_room"
+    <input type="number" step="1" name="num_room" id="num_room"
       value="{{ request.form['num_room'] }}" required>
     <input type="submit" value="Create">
 </form>

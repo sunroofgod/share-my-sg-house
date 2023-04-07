@@ -3,9 +3,9 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
     {% if "user" in session%}
-    <h1><a href="{{ url_for('user') }}">ShareMySGHouse</a></h1>
-    {% else %}
     <h1><a href="{{ url_for('rentals') }}">ShareMySGHouse</a></h1>
+    {% else %}
+    <h1><a href="{{ url_for('user') }}">ShareMySGHouse</a></h1>
     {% endif%}
     <ul>
         {% if "user" in session %}
