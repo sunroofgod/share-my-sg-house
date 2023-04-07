@@ -13,6 +13,7 @@
         <li><a href="{{ url_for('update_profile') }}">Profile</a></li>
         <li><a href="{{ url_for('bookings') }}">My Bookings</a></li>
         <li><a href="{{ url_for('rentals') }}">For Rent</a></li>
+        <li><a href="{{ url_for('get_my_listings') }}">My Listings</a></li>
         <li><a href="{{ url_for('logout') }}">Log Out</a></li>
         {% else %}
         <li><a href="{{ url_for('user') }}">Register/Login</a></li>

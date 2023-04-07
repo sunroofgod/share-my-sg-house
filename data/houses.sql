@@ -998,3 +998,5 @@ insert into houses (id, location, price, num_room, owner_email) values (997, '04
 insert into houses (id, location, price, num_room, owner_email) values (998, '7395 Susan Avenue', 309, 3, 'salthroppo@pbs.org');
 insert into houses (id, location, price, num_room, owner_email) values (999, '432 Pennsylvania Street', 577, 2, 'hkerild@surveymonkey.com');
 insert into houses (id, location, price, num_room, owner_email) values (1000, '24998 Iowa Plaza', 350, 6, 'kdymondqe@biblegateway.com');
+insert into houses (id, location, price, num_room, owner_email) values (1001, '234 Singapore City', 490, 3, '123@gmail.com');
+insert into houses (id, location, price, num_room, owner_email) values (1002, '578 Chinatown Road', 1000, 5, '123@gmail.com');
