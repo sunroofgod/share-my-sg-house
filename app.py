@@ -144,56 +144,57 @@ def get_my_listings():
     return render_template('listings/index.html', 
                            listings=listings)
 
-def updatelisting(id):
+@app.route('/listings/update/<int:id>', methods=('GET', 'POST'))
+@is_login
+def update_listing(id):
     listing = execute_sql(db, f'''
-        SELECT * FROM houses WHERE houses.id = {id};''')
+        SELECT * FROM houses WHERE id = {id};''')[0]
+    db.commit()
     email = session["user"]
     if request.method == 'POST':
         location = request.form['location']
         price = request.form['price']
         num_room = request.form['num_room']
-        if not location and not price and not num_room:
-            flash('Nothing filled in. No changes made.')
-        elif not location:
-            flash('Location not filled in!')
-        elif not price:
-            flash('Price not filled in!')
-        elif not num_room:
-            flash('Number of Rooms not filled in!')
-        else:
-            execute_update(db,f'''
-                    UPDATE houses 
-                    SET location = '{location}' AND
-                    price = {price} AND
-                    num_room = {num_room} 
-                    WHERE owner_email = {email}; 
-                    ''')
-            db.commit()
-            return redirect(url_for('get_my_listings'))
+        execute_update(db,f'''
+                UPDATE houses 
+                SET location = '{location}',
+                price = {price},
+                num_room = {num_room} 
+                WHERE owner_email = '{email}' AND
+                id = {id}; 
+                ''')
+        db.commit()
+        return redirect(url_for('get_my_listings'))
 
     return render_template('listings/update.html',
                            listing=listing)
         
 @app.route('/listings/create', methods = ['GET', 'POST'])
-# @login_required #to add login required function --> either in user(), etc
+@is_login
 def create_listing():
+    email = session["user"]
     if request.method == 'POST':
         location = request.form.get('location')
         price = request.form.get('price')
         num_room = request.form.get('num_room')
-		# How do we generate random unique not null id number?
-		# How do we obtain the current user's email to execute SQL command?
-    if not location or not price or not num_room:
-        error = 'All fields are required.'
-    if error is not None:
-        flash(error)
-    else:
-        id = generate_random_id() # function to be made
-        execute_sql(db,
-        f'''INSERT INTO houses (id, location, price, num_room, owner_email), 
-        ('{id}','{location}', '{price}', '{num_room}, '{g.user['email']}');
+        id = execute_sql(db, f'''SELECT id FROM houses ORDER BY id DESC;''')[0][0] + 1
+        execute_update(db,f'''
+        INSERT INTO houses (id, location, price, num_room, owner_email) values
+        ({id},'{location}', {price}, {num_room}, '{email}');
         ''')
-    return redirect(url_for('display_my_listings'))
+        db.commit()
+        return redirect(url_for('get_my_listings'))
+    
+    return render_template('listings/create.html')
+
+@app.route('/listings/<int:id>/delete', methods=['POST'])
+@is_login
+def delete_listing(id):
+    execute_update(db, f'''
+    DELETE FROM houses WHERE id = {id}; 
+    ''')
+    db.commit()
+    return redirect(url_for('get_my_listings'))
     
 @app.route('/rentals', methods = ['GET', 'POST'])
 @is_login

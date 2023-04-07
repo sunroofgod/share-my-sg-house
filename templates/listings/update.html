@@ -8,16 +8,21 @@
 
 <h2>House Listing at {{ listing.location }}</h2>
 
-<form method="POST">
-<label for="location">Location</label>
-<input type="text" name="location" id="location">
+<form method="post">
+    <label for="location">Location</label>
+    <input name="location" id="location"
+      value="{{ request.form['location'] or listing.location }}" required>
+    <label for="price">Price</label>
+    <input name="price" id="price"
+      value="{{ request.form['price'] or listing.price }}" required>
+    <label for="num_room">Number of Rooms</label>
+    <input name="num_room" id="num_room"
+      value="{{ request.form['num_room'] or listing.num_room }}" required>
+    <input type="submit" value="Save">
+</form>
 
-<label for="price">Price</label>
-<input type="text" name="price" id="price">
-
-<label for="num_room">Number of Rooms</label>
-<input type="text" name="num_room" id="num_room">
-
-<input type="submit" value="Update listing">
+<hr>
+<form action="{{ url_for('delete_listing', id = listing.id) }}" method="post">
+  <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
 </form>
 {% endblock %}
