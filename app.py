@@ -204,5 +204,34 @@ def rentals():
     )
     return render_template('rent/index.html', rental=rental)
 
+@app.route('/create_rental/<id>', methods = ['GET', 'POST'])
+@is_login
+def create_rental(id):
+    email = session['user']
+    cards = execute_sql(db,
+            f'''SELECT * FROM credit_cards WHERE email = '{email}';
+            ''')
+    if len(cards) == 0:
+        flash('You do not have any credit cards, please add one to rent a house.')
+        return redirect(url_for('update_profile'))
+    
+    house = execute_sql(db,
+            f'''SELECT * FROM houses WHERE id = {id};
+            ''')[0]
+    if request.method == 'GET':
+        return render_template('rent/create.html', cards = cards, house=house)
+    
+    elif request.method == "POST":
+        cc_num = request.form['credit_card_num']
+        date = request.form['booking_date']
+        num_of_days = int(request.form['num_of_days'])
+        
+        execute_update(db,
+            f'''INSERT INTO rental (email,houseid,num_of_days,date)
+            VALUES ('{email}',{id},{num_of_days},'{date}');
+            ''')
+        flash(f"Successful booking of {house.location} at cost: {num_of_days*house.price}")
+        return redirect(url_for('bookings'))
+
 if __name__ == "__main__":
     app.run()
