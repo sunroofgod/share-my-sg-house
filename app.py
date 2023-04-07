@@ -70,6 +70,37 @@ def register():
 def bookings():
     email = session["user"]
     
+    user_visited_all = execute_sql(db, f'''
+            SELECT *
+            FROM users as u
+            WHERE NOT EXISTS (
+                SELECT h.id
+                FROM houses as h
+                EXCEPT                    
+                SELECT r.houseid
+                FROM rental as r
+                WHERE u.email=r.email
+            );                    
+            ''').__len__()
+    
+    unique_booking_count = execute_sql(db, f'''
+            SELECT count(*)
+            FROM rental as r, houses as h
+            WHERE r.email = '{email}' AND h.id=r.houseid;
+            ''')[0]
+
+    unique_houses_not_booked = execute_sql(db, f'''
+            SELECT count(*)
+            FROM
+                (SELECT id
+                FROM houses
+                EXCEPT
+                SELECT r.houseid
+                FROM rental as r, houses as h
+                WHERE r.email = '{email}' AND h.id=r.houseid) as list
+            ;
+            ''')[0]
+    
     rentals = execute_sql(db, f'''
             SELECT h.location, h.price, r.num_of_days, r.date
             FROM rental as r, houses as h
@@ -77,7 +108,10 @@ def bookings():
             ORDER BY r.date desc;
             ''')
     return render_template('bookings/index.html',
-                rents=rentals)
+                rents=rentals,
+                unique_booking_count=unique_booking_count,
+                unique_houses_not_booked=unique_houses_not_booked,
+                user_visited_all=user_visited_all)
 
 @app.route('/logout')
 @is_login
