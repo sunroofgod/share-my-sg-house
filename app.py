@@ -98,7 +98,7 @@ def update_profile():
         if password:
             execute_update(db,f'''
                     UPDATE users 
-                    SET password = {password}
+                    SET password = '{password}'
                     WHERE email = '{email}'; 
                     ''')
             db.commit()
