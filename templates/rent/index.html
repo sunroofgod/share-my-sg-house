@@ -11,9 +11,9 @@
     <header>
         <div>
             <h3>{{ house.location }}, {{ house.num_room }}-room</h3>
-            <p class="body">${{ house['price']}} a day</p>
+            <p class="body">${{ house['price']}} a night</p>
         </div>
-        <a class="action" href="{{house.id}}">Rent now!</a>
+        <a class="action" href="{{ url_for('create_rental', id=house.id) }}">Rent now!</a>
     </header>
 </article>
 {% endfor %}
