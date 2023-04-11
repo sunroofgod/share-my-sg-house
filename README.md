@@ -1,27 +1,12 @@
 <!-- PROJECT TITLE -->
-<br />
-<div align="center">
-  <h3 align="center">ShareMySGHouse</h3>
-</div>
+# ShareMySGHouse
 
 <!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#technology">Technology</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-  </ol>
-</details>
+## Table of Content
+- [About The Project](#about-the-project)
+- [Technology](#technology)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -32,6 +17,8 @@ Our project uses the Flask framework to create a web application that acts as an
 ### Technology
 * Flask
 * Jinja
+* HTML
+* PSQL
 
 <!-- GETTING STARTED -->
 ## Getting Started
