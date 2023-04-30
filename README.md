@@ -26,7 +26,7 @@ Our project uses the Flask framework to create a web application that acts as an
 ### Installation
 1. Clone the repo
   ```sh
-  git clone https://github.com/sunroofgod/share-my-sg-house.git
+  git clone https://github.com/HiIAmTzeKean/IT2002-Database-Technology-and-Management.git
   ```
 2. Install required packages
   ```sh
