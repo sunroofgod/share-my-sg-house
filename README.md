@@ -14,6 +14,8 @@ Inspired by Airbnb, ShareMySGHouse is a web application that does the same.
 
 Our project uses the Flask framework to create a web application that acts as an online marketplace for short homestays. Users are able to create their own ShareMySGHouse accounts, where they will then be able to rent an apartment that is available, or put up their houses for rental.
 
+This project is part of our graded coursework in the National University of Singapore module IT2002: Database Technology and Management.
+
 ### Technology
 * Flask
 * Jinja
