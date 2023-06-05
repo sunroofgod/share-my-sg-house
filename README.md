@@ -28,7 +28,7 @@ This project is part of our graded coursework in the National University of Sing
 ### Installation
 1. Clone the repo
   ```sh
-  git clone https://github.com/HiIAmTzeKean/IT2002-Database-Technology-and-Management.git
+  git clone https://github.com/sunroofgod/share-my-sg-house.git
   ```
 2. Install required packages
   ```sh
